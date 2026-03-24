@@ -19,4 +19,8 @@ class MusicService {
       return SongDetail(song: song, artist: artist);
     }).toList();
   }
+
+  Future<void> updateLikes(String id, int likes) async {
+    await songRepository.updateLikes(id, likes);
+  }
 }

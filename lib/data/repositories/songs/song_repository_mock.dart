@@ -58,4 +58,7 @@ class SongRepositoryMock implements SongRepository {
       );
     });
   }
+
+  @override
+  Future<void> updateLikes(String id, int likes) async {}
 }

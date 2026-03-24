@@ -45,8 +45,26 @@ class LibraryViewModel extends ChangeNotifier {
 
   }
 
-  bool isSongPlaying(Song song) => playerState.currentSong == song;
+  bool isSongPlaying(Song song) => playerState.isPlaying && playerState.currentSong?.id == song.id;
+
+  bool isSongPaused(Song song) => !playerState.isPlaying && playerState.currentSong?.id == song.id;
 
   void start(Song song) => playerState.start(song);
   void stop(Song song) => playerState.stop();
+
+  void likeSong(SongDetail detail) async {
+    final newLikes = detail.song.likes + 1;
+    final updatedSong = detail.song.copyWith(likes: newLikes);
+    final updatedDetail = SongDetail(song: updatedSong, artist: detail.artist);
+
+    final currentList = List<SongDetail>.from(songDetailsValue.data ?? []);
+    final index = currentList.indexWhere((d) => d.song.id == detail.song.id);
+    if (index != -1) {
+      currentList[index] = updatedDetail;
+      songDetailsValue = AsyncValue.success(currentList);
+      notifyListeners();
+    }
+
+    await musicService.updateLikes(detail.song.id, newLikes);
+  }
 }

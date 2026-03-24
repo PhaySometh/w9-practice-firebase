@@ -23,6 +23,7 @@ class ArtistsTile extends StatelessWidget {
         child: ListTile(
           onTap: onTap,
           title: Text(artist.name),
+          subtitle: Text(artist.genre),
           leading: CircleAvatar(backgroundImage: NetworkImage(artist.imageUrl)),
         ),
       ),

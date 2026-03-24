@@ -4,17 +4,20 @@ import '../../model/songs/song.dart';
 
 class PlayerState extends ChangeNotifier {
   Song? _currentSong;
+  bool _isPlaying = false;
 
   Song? get currentSong => _currentSong;
+  bool get isPlaying => _isPlaying;
 
   void start(Song song) {
     _currentSong = song;
+    _isPlaying = true;
 
     notifyListeners();
   }
 
   void stop() {
-    _currentSong = null;
+    _isPlaying = false;
 
     notifyListeners();
   }
