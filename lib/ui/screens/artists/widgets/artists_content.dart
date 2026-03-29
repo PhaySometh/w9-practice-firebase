@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:week9_practice_firebase/model/artists/artist.dart';
+import 'package:week9_practice_firebase/ui/screens/artist_detail/artist_detail_screen.dart';
 import 'package:week9_practice_firebase/ui/screens/artists/view_model/artists_view_model.dart';
 import 'package:week9_practice_firebase/ui/screens/artists/widgets/artists_tile.dart';
 import '../../../theme/theme.dart';
@@ -30,12 +31,23 @@ class ArtistsContent extends StatelessWidget {
 
       case AsyncValueState.success:
         List<Artist> artists = asyncValue.data!;
-        content = ListView.builder(
-          itemCount: artists.length,
-          itemBuilder: (context, index) => ArtistsTile(
-            artist: artists[index],
-            onTap: () {
-            },
+        // W10-02 - RefreshIndicator forces cache clear and re-fetch
+        content = RefreshIndicator(
+          onRefresh: () async => mv.fetchArtists(forceFetch: true),
+          child: ListView.builder(
+            itemCount: artists.length,
+            itemBuilder: (context, index) => ArtistsTile(
+              artist: artists[index],
+              onTap: () {
+                // W10-03 - Navigate to artist detail screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ArtistDetailScreen(artist: artists[index]),
+                  ),
+                );
+              },
+            ),
           ),
         );
     }
