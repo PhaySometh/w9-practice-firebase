@@ -24,7 +24,10 @@ class ArtistsTile extends StatelessWidget {
           onTap: onTap,
           title: Text(artist.name),
           subtitle: Text(artist.genre),
-          leading: CircleAvatar(backgroundImage: NetworkImage(artist.imageUrl)),
+          leading: CircleAvatar(
+            onBackgroundImageError: (_, __) {},
+            backgroundImage: NetworkImage(artist.imageUrl),
+          ),
         ),
       ),
     );
