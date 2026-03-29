@@ -10,9 +10,9 @@ class MusicService {
 
   MusicService({required this.songRepository, required this.artistRepository});
 
-  Future<List<SongDetail>> fetchSongDetails() async {
-    final List<Song> songs = await songRepository.fetchSongs();
-    final List<Artist> artists = await artistRepository.fetchArtists();
+  Future<List<SongDetail>> fetchSongDetails({bool forceFetch = false}) async {
+    final List<Song> songs = await songRepository.fetchSongs(forceFetch: forceFetch);
+    final List<Artist> artists = await artistRepository.fetchArtists(forceFetch: forceFetch);
 
     return songs.map((song) {
       final artist = artists.firstWhere((a) => a.id == song.artistId);

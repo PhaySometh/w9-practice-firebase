@@ -43,7 +43,7 @@ class SongRepositoryMock implements SongRepository {
   ];
 
   @override
-  Future<List<Song>> fetchSongs() async {
+  Future<List<Song>> fetchSongs({bool forceFetch = false}) async {
     return Future.delayed(Duration(seconds: 4), () {
       throw Exception("G3 and G4 the class is finished");
     });

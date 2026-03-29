@@ -35,6 +35,7 @@ class SongTile extends StatelessWidget {
             '${songDetail.song.duration.inMinutes} mins  ${songDetail.song.likes} likes  ${songDetail.artist.name} – ${songDetail.artist.genre}',
           ),
           leading: CircleAvatar(
+            onBackgroundImageError: (_, __) {},
             backgroundImage: NetworkImage(songDetail.song.imageUrl),
           ),
           trailing: Row(

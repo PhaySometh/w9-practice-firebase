@@ -27,22 +27,26 @@ class LibraryContent extends StatelessWidget {
 
       case AsyncValueState.success:
         List<SongDetail> detail = asyncValue.data!;
-        content = ListView.builder(
-          itemCount: detail.length,
-          itemBuilder: (context, index) => SongTile(
-            songDetail: detail[index],
-            isPlaying: mv.isSongPlaying(detail[index].song),
-            isPaused: mv.isSongPaused(detail[index].song),
-            onTap: () {
-              if (mv.isSongPlaying(detail[index].song)) {
-                mv.stop(detail[index].song);
-              } else {
-                mv.start(detail[index].song);
-              }
-            },
-            onLike: () {
-              mv.likeSong(detail[index]);
-            },
+        // W10-02 - RefreshIndicator forces cache clear and re-fetch
+        content = RefreshIndicator(
+          onRefresh: () async => mv.fetchSong(forceFetch: true),
+          child: ListView.builder(
+            itemCount: detail.length,
+            itemBuilder: (context, index) => SongTile(
+              songDetail: detail[index],
+              isPlaying: mv.isSongPlaying(detail[index].song),
+              isPaused: mv.isSongPaused(detail[index].song),
+              onTap: () {
+                if (mv.isSongPlaying(detail[index].song)) {
+                  mv.stop(detail[index].song);
+                } else {
+                  mv.start(detail[index].song);
+                }
+              },
+              onLike: () {
+                mv.likeSong(detail[index]);
+              },
+            ),
           ),
         );
     }
